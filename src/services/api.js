@@ -28,3 +28,7 @@ export const cryptoAPI = {
   getGainers: () => request("/crypto/gainers"),
   getNew: () => request("/crypto/new"),
 };
+
+export const testServer = {
+  checkActive: () => request("/"),
+};
