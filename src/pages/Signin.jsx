@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import CoinbaseLogo from "@/assets/images/coinbase_logo.png";
 import WarningBanner from "@/components/common/WarningBanner";
+import { RiLoader5Line } from "react-icons/ri";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -161,7 +162,11 @@ const Signin = () => {
                 variant="secondary"
                 disabled={formik.isSubmitting}
               >
-                {formik.isSubmitting ? "Signing in..." : "Continue"}
+                {formik.isSubmitting ? (
+                  <RiLoader5Line size={25} className="animate-spin" />
+                ) : (
+                  "Continue"
+                )}
               </Button>
             )}
           </div>
