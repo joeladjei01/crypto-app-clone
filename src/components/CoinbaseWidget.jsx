@@ -176,6 +176,7 @@ const COIN_COLORS = [
 function mapApiCoin(coin, idx) {
   return {
     name: coin.name,
+    image: coin.image,
     ticker: coin.symbol,
     price: `$${Number(coin.price).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
     change: coin.change24h,
@@ -191,18 +192,29 @@ const TABS = [
 ];
 
 function CoinIcon({ coin }) {
+  console.log(coin.image);
+  const isImage =
+    typeof coin.image === "string" &&
+    (coin.image.startsWith("http") ||
+      coin.image.startsWith("/") ||
+      coin.image.startsWith("data:"));
   return (
     <div
-      className="flex items-center justify-center rounded-full text-white font-bold text-sm shrink-0"
+      className="flex items-center justify-center rounded-full text-white font-bold text-sm shrink-0 overflow-hidden"
       style={{
         width: 40,
         height: 40,
-        background: coin.color,
+        background: isImage ? "transparent" : coin.color,
         fontSize: 16,
-        boxShadow: `0 0 12px ${coin.color}55`,
       }}
     >
-      {coin.icon}
+      <img
+        src={isImage ? coin.image : undefined}
+        alt={coin.name}
+        width={40}
+        height={40}
+        className="rounded-full object-cover"
+      />
     </div>
   );
 }
@@ -255,18 +267,23 @@ const CoinbaseWidget = () => {
   const [visible, setVisible] = useState(true);
   const [displayTab, setDisplayTab] = useState("tradable");
 
-  const { data: allRes, isLoading: loadingAllRes } = useAllCrypto();
+  const { data: allRes } = useAllCrypto();
   const { data: gainersRes } = useCryptoGainers();
   const { data: newRes } = useCryptoNew();
 
   const data = {
-    tradable: allRes?.data?.length
+    tradable: (allRes?.data?.length
       ? allRes.data.map(mapApiCoin)
-      : FALLBACK_TRADABLE,
-    gainers: gainersRes?.data?.length
+      : FALLBACK_TRADABLE
+    ).slice(0, 6),
+    gainers: (gainersRes?.data?.length
       ? gainersRes.data.map(mapApiCoin)
-      : FALLBACK_GAINERS,
-    new: newRes?.data?.length ? newRes.data.map(mapApiCoin) : FALLBACK_NEW,
+      : FALLBACK_GAINERS
+    ).slice(0, 6),
+    new: (newRes?.data?.length
+      ? newRes.data.map(mapApiCoin)
+      : FALLBACK_NEW
+    ).slice(0, 6),
   };
 
   const currentData = data[displayTab] || [];
@@ -301,7 +318,7 @@ const CoinbaseWidget = () => {
         </div>
 
         <div className="shrink-0 max-w-sm lg:max-w-full lg:flex-1/2 rounded-4xl overflow-hidden bg-gray-950 p-6">
-          <div className="flex items-center gap-1 p-6 pb-2">
+          <div className="flex items-center gap-1 p-6 pb-2 overflow-x-auto">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
