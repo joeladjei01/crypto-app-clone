@@ -21,9 +21,12 @@ import { homeImg } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import CoinbaseWidget from "../components/CoinbaseWidget";
 import coinbaseLogo from "../assets/images/coinbaseLogoNav.svg";
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const goToSignup = () => navigate(user ? "/" : "/signup/");
   return (
     <>
       <section className="pt-26">
@@ -42,7 +45,7 @@ const Home = () => {
                 className=" w-full rounded-md"
               />
               <Button
-                onClick={() => navigate("/signup/")}
+                onClick={goToSignup}
                 className={"rounded-full"}
               >
                 Sign up
@@ -87,7 +90,7 @@ const Home = () => {
               across hundreds of markets.
             </p>
             <Button
-              onClick={() => navigate("/signup/")}
+              onClick={goToSignup}
               className="!bg-gray-900 !text-white hover:!bg-gray-700"
             >
               Start trading
@@ -117,7 +120,7 @@ const Home = () => {
               boosted rewards, priority support, and more.
             </p>
             <Button
-              onClick={() => navigate("/signup/")}
+              onClick={goToSignup}
               className="!bg-gray-900 !text-white hover:!bg-gray-700"
             >
               Claim free trial
@@ -158,7 +161,7 @@ const Home = () => {
               place.
             </p>
             <Button
-              onClick={() => navigate("/signup/")}
+              onClick={goToSignup}
               className="!bg-gray-900 !text-white hover:!bg-gray-700"
             >
               Learn more
@@ -252,7 +255,7 @@ const Home = () => {
                 className="w-full rounded-md"
               />
               <Button
-                onClick={() => navigate("/signup/")}
+                onClick={goToSignup}
                 className="rounded-full! sm:shrink-0"
               >
                 Sign up
