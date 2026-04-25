@@ -1,22 +1,6 @@
 import React, { useState } from "react";
 import Button from "../components/common/Button";
 import Input from "../components/common/Input";
-import { BiMenu, BiChevronRight, BiSearch } from "react-icons/bi";
-import { TbWorld } from "react-icons/tb";
-import { FaBitcoin, FaEthereum } from "react-icons/fa";
-import {
-  SiTether,
-  SiBinance,
-  SiAlgorand,
-  SiDogecoin,
-  SiCardano,
-} from "react-icons/si";
-import Card, {
-  CardBody,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from "../components/common/Card";
 import { homeImg } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import CoinbaseWidget from "../components/CoinbaseWidget";
@@ -44,10 +28,7 @@ const Home = () => {
                 placeholder="satoshi@nakamoto.com"
                 className=" w-full rounded-md"
               />
-              <Button
-                onClick={goToSignup}
-                className={"rounded-full"}
-              >
+              <Button onClick={goToSignup} className={"rounded-full"}>
                 Sign up
               </Button>
             </div>
